@@ -1,0 +1,4 @@
+* text=auto
+yarn.lock binary
+package-lock.json binary
+pnpm-lock.yaml binary
