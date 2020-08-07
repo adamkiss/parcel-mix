@@ -13,7 +13,7 @@ npm i -D parcel-mix
 Create a config files:
 
 ``` bash
-$ npx mix setup [name ?| kirby]
+$ npx parcel-mix setup [name ?| kirby]
 ```
 
 And then `package.json` scripts:
@@ -21,7 +21,8 @@ And then `package.json` scripts:
 ``` json
 {
 	"scripts": {
-		"dev:assets": "npx mix [watch] [--no-hoist]"
+		"dev:assets": "mix [watch] [--no-hoist]",
+		"production:assets": "NODE_ENV=production mix"
  	}
 }
 ```

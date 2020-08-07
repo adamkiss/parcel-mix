@@ -6,36 +6,40 @@ const Parcel = require('parcel-bundler')
 const BrowserSync = require('browser-sync').create()
 const del = require('del')
 const {
-	writeFile, renameFileOrOK, findProjectRoot
+	writeFile, renameFileOrOK, findProjectRoot,
+	setup
 } = require('./utils.js')
 const {
 	generateManifest
 } = require('./manifest.js')
 
-/* Find bundler.config.js, or expect Kirby setup and set it up */
+/* Runtime arguments & config */
+const args = require('minimist')(process.argv.slice(2))
+const [cmd, cmdOption] = args._
 const configFile = path.join(findProjectRoot(), 'parcel.mix.js')
-if (!fs.existsSync(configFile)) {
-	fs.writeFileSync(configFile, fs.readFileSync(path.join(__dirname, 'default-kirby-config.js')))
+
+if (cmd === 'setup') {
+	return setup(cmdOption, configFile)
+}
+
+/* Find bundler.config.js, or expect Kirby setup and set it up */
+if (!fs.existsSync(configFile) && cmd !== 'setup') {
+	console.error('⚠️ parcel.mix.js is missing!')
+	process.exit(1)
 }
 const config = require(configFile)
 config.root = findProjectRoot()
 
-const args = require('minimist')(process.argv.slice(2), {
-	default: {
-		watch: true
-	}
-})
-
 const opts = {
 	production: process.env.NODE_ENV === 'production',
-	watch: args.watch && process.env.NODE_ENV !== 'production',
+	watch: cmd === 'watch' && process.env.NODE_ENV !== 'production',
 	config
 }
 const parcelOpts = Object.assign({
 	logLevel: opts.production ? 4 : 3,
-	scopeHoist: opts.scopeHoist,
-	contentHash: opts.production,
-	sourceMaps: !opts.production
+	scopeHoist: ('hoist' in args && args.hoist === false),
+	contentHash: opts.production && (!('hash' in args && args.hash === false)),
+	sourceMaps: !opts.production && (!'sourcemaps' in args)
 }, config.parcelOpts)
 const info = message => {
 	opts.production
@@ -60,7 +64,6 @@ const renameAndManifest = async (bundle, config) => {
 		}, []),
 		writeFile(config.manifestPath, config.manifestTemplate(manifest))
 	).catch(err => console.error(err))
-
 }
 
 /*

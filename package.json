@@ -3,11 +3,11 @@
   "version": "0.6.0",
   "description": "Simple replacement for my usage of Laravel Mix, using Parcel JS",
   "bin": {
-    "bundler": "src/mix.js"
+    "mix": "src/mix.js"
   },
   "files": [
-	"src/",
-	"config/"
+    "src/",
+    "config/"
   ],
   "scripts": {},
   "author": "Adam Kiss",

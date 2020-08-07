@@ -13,7 +13,23 @@ const readDir = util.promisify(fs.readdir)
 */
 const findProjectRoot = () => process.cwd()
 
+/*
+	Setup
+*/
+const allowedConfigs = ['11ty', 'kirby']
+const setup = (option, configFile) => {
+	if (!allowedConfigs.includes(option)) {
+		console.error('⚠️ Wrong setup config name, select from: ' + allowedConfigs.join(','))
+		process.exit(1)
+	}
+
+	fs.writeFileSync(configFile, fs.readFileSync(path.join(__dirname, '..', 'config', `${option}.js`)))
+	console.log('✅ Done')
+	return
+}
+
 module.exports = {
 	writeFile, deleteFile, renameFile, renameFileOrOK,
-	readDir, findProjectRoot
+	readDir, findProjectRoot,
+	setupList: allowedConfigs, setup
 }

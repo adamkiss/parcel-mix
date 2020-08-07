@@ -9,7 +9,6 @@ module.exports = {
 		'main.sass',
 		'main.js'
 	],
-
 	/**
 	 * Parcel/cleanup related options
 	 */
@@ -17,17 +16,11 @@ module.exports = {
 		outDir: 'site/assets/dist',
 		publicUrl: '/assets/dist'
 	},
-
 	/**
 	 * Manifest related options
-	 *
-	 * "originalName": {
-	 * 	type: (css|js|jpg|…)
-	 * }
 	 */
 	manifestPath: 'data/assets.json',
 	manifestTemplate: files => JSON.stringify(files, null, "\t"),
-
 	/**
 	 * BrowserSync is managed by 11ty
 	 */
