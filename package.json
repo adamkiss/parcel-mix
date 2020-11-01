@@ -3,7 +3,7 @@
   "version": "0.6.0",
   "description": "Simple replacement for my usage of Laravel Mix, using Parcel JS",
   "bin": {
-    "mix": "src/mix.js"
+    "parcelmix": "src/parcelmix.js"
   },
   "files": [
     "src/",
