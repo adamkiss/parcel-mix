@@ -1,6 +1,6 @@
 {
   "name": "parcel-mix",
-  "version": "0.6.0",
+  "version": "0.7.0",
   "description": "Simple replacement for my usage of Laravel Mix, using Parcel JS",
   "bin": {
     "parcelmix": "src/parcelmix.js"
